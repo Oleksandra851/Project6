@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Project6.ViewModels"
+             x:Class="Project6.Views.BookingsPage"
+             x:Name="BookingsPageInstance"
+             Title="📅 Мої Візити"
+             BackgroundColor="#FAF4F0">
+
+    <ContentPage.BindingContext>
+        <vm:BookingsViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *">
+        <Border Grid.Row="0" BackgroundColor="#F5E6DF" Margin="12,12,12,6" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+            <StackLayout Padding="16">
+                <Label Text="Активні бронювання" FontSize="20" FontAttributes="Bold" TextColor="#5A3A31" HorizontalOptions="Center"/>
+                <Label Text="Тут відображаються ваші заплановані візити" FontSize="13" TextColor="#8C685F" HorizontalOptions="Center"/>
+            </StackLayout>
+        </Border>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Bookings}" Margin="12,6">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,0,0,12" BackgroundColor="White" StrokeShape="RoundRectangle 16" StrokeThickness="0" Padding="16">
+                        <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding ServiceTitle}" FontSize="16" FontAttributes="Bold" TextColor="#3D2721"/>
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding FormattedPrice}" FontSize="16" FontAttributes="Bold" TextColor="#C26A53"/>
+                            <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding CategoryName}" FontSize="12" TextColor="#B58376" Margin="0,2,0,6"/>
+
+                            <StackLayout Grid.Row="2" Grid.ColumnSpan="2" Spacing="4" Margin="0,0,0,10">
+                                <Label Text="{Binding MasterName, StringFormat='👤 Майстер: {0}'}" FontSize="13" TextColor="#5A3A31"/>
+                                <Label Text="{Binding FormattedDate, StringFormat='📅 Дата та час: {0}'}" FontSize="13" TextColor="#5A3A31"/>
+                                <Label Text="{Binding ClientName, StringFormat='Клієнт: {0}'}" FontSize="12" TextColor="#8C685F"/>
+                            </StackLayout>
+
+                            <Button Grid.Row="3" Grid.Column="1" Text="Скасувати 🗑" 
+                                    Command="{Binding Source={x:Reference BookingsPageInstance}, Path=BindingContext.CancelBookingCommand}" 
+                                    CommandParameter="{Binding Id}" 
+                                    BackgroundColor="#E57373" TextColor="White" CornerRadius="10" HeightRequest="36" Padding="12,0"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

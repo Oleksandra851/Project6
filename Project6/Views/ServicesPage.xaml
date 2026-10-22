@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Project6.ViewModels"
+             x:Class="Project6.Views.ServicesPage"
+             x:Name="ServicesPageInstance"
+             Title="🌸 Салон Краси «Beauty Workspace»"
+             BackgroundColor="#FAF4F0">
+
+    <ContentPage.BindingContext>
+        <vm:ServicesViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, Auto, *">
+        <Border Grid.Row="0" BackgroundColor="#F5E6DF" Margin="12,12,12,6" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+            <StackLayout Padding="16">
+                <Label Text="Каталог послуг та сервісів" FontSize="20" FontAttributes="Bold" TextColor="#5A3A31" HorizontalOptions="Center"/>
+                <Label Text="Оберіть процедуру та забронюйте зручний час" FontSize="13" TextColor="#8C685F" HorizontalOptions="Center"/>
+            </StackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="12,4">
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Всі" Command="{Binding FilterCommand}" CommandParameter="All" BackgroundColor="#EAD8CE" TextColor="#5A3A31" CornerRadius="20" Padding="14,0"/>
+                <Button Text="Перукарні" Command="{Binding FilterCommand}" CommandParameter="Hair" BackgroundColor="#EAD8CE" TextColor="#5A3A31" CornerRadius="20" Padding="14,0"/>
+                <Button Text="Нігті" Command="{Binding FilterCommand}" CommandParameter="Nails" BackgroundColor="#EAD8CE" TextColor="#5A3A31" CornerRadius="20" Padding="14,0"/>
+                <Button Text="Макіяж" Command="{Binding FilterCommand}" CommandParameter="Makeup" BackgroundColor="#EAD8CE" TextColor="#5A3A31" CornerRadius="20" Padding="14,0"/>
+                <Button Text="Масаж" Command="{Binding FilterCommand}" CommandParameter="Massage" BackgroundColor="#EAD8CE" TextColor="#5A3A31" CornerRadius="20" Padding="14,0"/>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding FilteredServices}" Margin="12,6">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,0,0,12" BackgroundColor="White" StrokeShape="RoundRectangle 16" StrokeThickness="0" Padding="16">
+                        <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title}" FontSize="17" FontAttributes="Bold" TextColor="#3D2721"/>
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding FormattedPrice}" FontSize="17" FontAttributes="Bold" TextColor="#C26A53"/>
+
+                            <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding CategoryName}" FontSize="12" TextColor="#B58376" Margin="0,2,0,6"/>
+                            <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Description}" FontSize="13" TextColor="#6E5852" Margin="0,0,0,10"/>
+
+                            <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Horizontal" VerticalOptions="Center">
+                                <Label Text="⏱ " FontSize="12"/>
+                                <Label Text="{Binding FormattedDuration}" FontSize="12" TextColor="#8C685F"/>
+                            </StackLayout>
+
+                            <Button Grid.Row="3" Grid.Column="1" Text="Записатися ✨" 
+                                    Command="{Binding Source={x:Reference ServicesPageInstance}, Path=BindingContext.BookServiceCommand}" 
+                                    CommandParameter="{Binding .}" 
+                                    BackgroundColor="#D98A75" TextColor="White" CornerRadius="12" HeightRequest="38" Padding="12,0"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
